@@ -1,5 +1,8 @@
 name: 'Create Archive'
 description: 'Create a ZIP or Tar archive'
+branding:
+  icon: archive
+  color: purple
 inputs:
   root-directory:
     description: 'The directory to archive from'
