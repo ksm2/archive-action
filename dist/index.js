@@ -32498,36 +32498,104 @@ ZipStream.prototype.finalize = function() {
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.archive = void 0;
 const archiver_1 = __importDefault(__nccwpck_require__(3084));
-const node_fs_1 = __importDefault(__nccwpck_require__(7561));
 const node_path_1 = __importDefault(__nccwpck_require__(9411));
 const model_1 = __nccwpck_require__(4942);
-function archive(format, outputPath, rootDir, filenames) {
-    return new Promise((resolve, reject) => {
-        const output = node_fs_1.default.createWriteStream(outputPath);
-        const archive = (0, archiver_1.default)(format === model_1.Format.TAR ? 'tar' : 'zip', {
+function archive(format, rootDir, filenames) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const archive = (0, archiver_1.default)(format === model_1.Format.ZIP ? 'zip' : 'tar', {
             zlib: { level: 9 }, // Sets the compression level.
         });
-        output.on('close', () => {
-            console.log(archive.pointer() + ' total bytes');
-            resolve();
-        });
-        archive.on('error', (err) => {
-            reject(err);
-        });
-        archive.pipe(output);
+        process.stdout.write(`Archiving\n`);
         for (const filename of filenames) {
+            process.stdout.write(`- ${filename}\n`);
             archive.file(node_path_1.default.resolve(rootDir, filename), { name: filename });
         }
-        archive.finalize();
+        yield archive.finalize();
+        return archive;
     });
 }
 exports.archive = archive;
+
+
+/***/ }),
+
+/***/ 9974:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __asyncValues = (this && this.__asyncValues) || function (o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
+    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
+    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
+};
+var __await = (this && this.__await) || function (v) { return this instanceof __await ? (this.v = v, this) : new __await(v); }
+var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
+    function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
+    function fulfill(value) { resume("next", value); }
+    function reject(value) { resume("throw", value); }
+    function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.compress = void 0;
+const node_zlib_1 = __nccwpck_require__(5628);
+const model_1 = __nccwpck_require__(4942);
+function compress(format) {
+    if (format === model_1.Format.TAR_GZ) {
+        return (0, node_zlib_1.createGzip)();
+    }
+    else {
+        return id;
+    }
+}
+exports.compress = compress;
+function id(chunks) {
+    return __asyncGenerator(this, arguments, function* id_1() {
+        var _a, e_1, _b, _c;
+        try {
+            for (var _d = true, chunks_1 = __asyncValues(chunks), chunks_1_1; chunks_1_1 = yield __await(chunks_1.next()), _a = chunks_1_1.done, !_a;) {
+                _c = chunks_1_1.value;
+                _d = false;
+                try {
+                    const chunk = _c;
+                    yield yield __await(chunk);
+                }
+                finally {
+                    _d = true;
+                }
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (!_d && !_a && (_b = chunks_1.return)) yield __await(_b.call(chunks_1));
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+    });
+}
 
 
 /***/ }),
@@ -32584,7 +32652,6 @@ function getFormat() {
     throw new Error(`Invalid format: ${format}`);
 }
 function setOutputs(outputs) {
-    console.dir(outputs);
     core.setOutput('path', outputs.path);
 }
 exports.setOutputs = setOutputs;
@@ -32698,8 +32765,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const node_fs_1 = __importDefault(__nccwpck_require__(7561));
 const node_path_1 = __importDefault(__nccwpck_require__(9411));
+const promises_1 = __nccwpck_require__(6402);
 const archive_1 = __nccwpck_require__(2933);
+const compress_1 = __nccwpck_require__(9974);
 const github_1 = __nccwpck_require__(978);
 const io_1 = __nccwpck_require__(8672);
 function main() {
@@ -32707,7 +32777,10 @@ function main() {
         const { rootDir, include, format, name } = (0, github_1.getInputs)();
         const filenames = yield (0, io_1.getFilesToInclude)(rootDir, include);
         const outputPath = node_path_1.default.resolve(process.cwd(), `${name}.${format}`);
-        yield (0, archive_1.archive)(format, outputPath, rootDir, filenames);
+        const archiver = yield (0, archive_1.archive)(format, rootDir, filenames);
+        const output = node_fs_1.default.createWriteStream(outputPath);
+        const compressor = (0, compress_1.compress)(format);
+        yield (0, promises_1.pipeline)(archiver, compressor, output);
         (0, github_1.setOutputs)({ path: outputPath });
     });
 }
@@ -32729,6 +32802,7 @@ var Format;
 (function (Format) {
     Format["ZIP"] = "zip";
     Format["TAR"] = "tar";
+    Format["TAR_GZ"] = "tar.gz";
 })(Format = exports.Format || (exports.Format = {}));
 
 
@@ -32827,6 +32901,22 @@ module.exports = require("node:fs/promises");
 
 "use strict";
 module.exports = require("node:path");
+
+/***/ }),
+
+/***/ 6402:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:stream/promises");
+
+/***/ }),
+
+/***/ 5628:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("node:zlib");
 
 /***/ }),
 

@@ -18,7 +18,7 @@ jobs:
         id: archive
         uses: ksm2/archive-action@main
         with:
-          format: 'zip'
+          format: 'tar.gz'
           name: 'output'
           include: 'src/*.ts'
 
@@ -27,5 +27,5 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: Archive.zip
+          name: Archive
           path: ${{ steps.archive.outputs.path }}

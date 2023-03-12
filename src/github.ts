@@ -21,7 +21,6 @@ function getFormat(): Format {
 }
 
 export function setOutputs(outputs: Outputs): void {
-  console.dir(outputs);
   core.setOutput('path', outputs.path);
 }
 
