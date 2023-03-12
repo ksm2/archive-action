@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import archiver from 'archiver';
 import path from 'node:path';
 import { Format } from './model';
@@ -7,11 +8,12 @@ export function archive(format: Format, rootDir: string, filenames: string[]): a
     zlib: { level: 9 }, // Sets the compression level.
   });
 
-  process.stdout.write(`Archiving\n`);
+  core.startGroup('Archived files');
   for (const filename of filenames) {
-    process.stdout.write(`- ${filename}\n`);
+    core.info(`- ${filename}`);
     archive.file(path.resolve(rootDir, filename), { name: filename });
   }
+  core.endGroup();
 
   archive.finalize();
   return archive;

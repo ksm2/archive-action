@@ -28,7 +28,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.issue = exports.issueCommand = void 0;
 const os = __importStar(__nccwpck_require__(2037));
-const utils_1 = __nccwpck_require__(6321);
+const utils_1 = __nccwpck_require__(5278);
 /**
  * Commands
  *
@@ -137,7 +137,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
 const command_1 = __nccwpck_require__(7351);
 const file_command_1 = __nccwpck_require__(717);
-const utils_1 = __nccwpck_require__(6321);
+const utils_1 = __nccwpck_require__(5278);
 const os = __importStar(__nccwpck_require__(2037));
 const path = __importStar(__nccwpck_require__(1017));
 const oidc_utils_1 = __nccwpck_require__(8041);
@@ -475,7 +475,7 @@ exports.prepareKeyValueMessage = exports.issueFileCommand = void 0;
 const fs = __importStar(__nccwpck_require__(7147));
 const os = __importStar(__nccwpck_require__(2037));
 const uuid_1 = __nccwpck_require__(5840);
-const utils_1 = __nccwpck_require__(6321);
+const utils_1 = __nccwpck_require__(5278);
 function issueFileCommand(command, message) {
     const filePath = process.env[`GITHUB_${command}`];
     if (!filePath) {
@@ -947,7 +947,7 @@ exports.summary = _summary;
 
 /***/ }),
 
-/***/ 6321:
+/***/ 5278:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -3671,7 +3671,7 @@ util.inherits = __nccwpck_require__(4124);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __nccwpck_require__(5278)
+  deprecate: __nccwpck_require__(7127)
 };
 /*</replacement>*/
 
@@ -21011,7 +21011,7 @@ util.inherits = __nccwpck_require__(4124);
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __nccwpck_require__(5278)
+  deprecate: __nccwpck_require__(7127)
 };
 /*</replacement>*/
 
@@ -26297,7 +26297,7 @@ if (debugUtil && debugUtil.debuglog) {
 }
 /*</replacement>*/
 
-var BufferList = __nccwpck_require__(2746);
+var BufferList = __nccwpck_require__(6522);
 var destroyImpl = __nccwpck_require__(7049);
 var _require = __nccwpck_require__(9948),
   getHighWaterMark = _require.getHighWaterMark;
@@ -27524,7 +27524,7 @@ Writable.WritableState = WritableState;
 
 /*<replacement>*/
 var internalUtil = {
-  deprecate: __nccwpck_require__(5278)
+  deprecate: __nccwpck_require__(7127)
 };
 /*</replacement>*/
 
@@ -28298,7 +28298,7 @@ module.exports = createReadableStreamAsyncIterator;
 
 /***/ }),
 
-/***/ 2746:
+/***/ 6522:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -31600,7 +31600,7 @@ exports.debug = debug; // for test
 
 /***/ }),
 
-/***/ 5278:
+/***/ 7127:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 
@@ -31693,7 +31693,7 @@ var _validate = _interopRequireDefault(__nccwpck_require__(6900));
 
 var _stringify = _interopRequireDefault(__nccwpck_require__(8950));
 
-var _parse = _interopRequireDefault(__nccwpck_require__(4848));
+var _parse = _interopRequireDefault(__nccwpck_require__(2746));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31744,7 +31744,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 4848:
+/***/ 2746:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
@@ -32069,7 +32069,7 @@ exports.URL = exports.DNS = void 0;
 
 var _stringify = _interopRequireDefault(__nccwpck_require__(8950));
 
-var _parse = _interopRequireDefault(__nccwpck_require__(4848));
+var _parse = _interopRequireDefault(__nccwpck_require__(2746));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32498,11 +32498,35 @@ ZipStream.prototype.finalize = function() {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.archive = void 0;
+const core = __importStar(__nccwpck_require__(2186));
 const archiver_1 = __importDefault(__nccwpck_require__(3084));
 const node_path_1 = __importDefault(__nccwpck_require__(9411));
 const model_1 = __nccwpck_require__(4942);
@@ -32510,11 +32534,12 @@ function archive(format, rootDir, filenames) {
     const archive = (0, archiver_1.default)(format === model_1.Format.ZIP ? 'zip' : 'tar', {
         zlib: { level: 9 }, // Sets the compression level.
     });
-    process.stdout.write(`Archiving\n`);
+    core.startGroup('Archived files');
     for (const filename of filenames) {
-        process.stdout.write(`- ${filename}\n`);
+        core.info(`- ${filename}`);
         archive.file(node_path_1.default.resolve(rootDir, filename), { name: filename });
     }
+    core.endGroup();
     archive.finalize();
     return archive;
 }
