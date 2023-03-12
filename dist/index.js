@@ -32652,7 +32652,9 @@ function getFormat() {
     throw new Error(`Invalid format: ${format}`);
 }
 function setOutputs(outputs) {
+    core.setOutput('name', outputs.name);
     core.setOutput('path', outputs.path);
+    core.setOutput('media-type', outputs.mediaType);
 }
 exports.setOutputs = setOutputs;
 function setFailed(error) {
@@ -32772,6 +32774,7 @@ const archive_1 = __nccwpck_require__(2933);
 const compress_1 = __nccwpck_require__(9974);
 const github_1 = __nccwpck_require__(978);
 const io_1 = __nccwpck_require__(8672);
+const model_1 = __nccwpck_require__(4942);
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const { rootDir, include, format, name } = (0, github_1.getInputs)();
@@ -32781,7 +32784,11 @@ function main() {
         const output = node_fs_1.default.createWriteStream(outputPath);
         const compressor = (0, compress_1.compress)(format);
         yield (0, promises_1.pipeline)(archiver, compressor, output);
-        (0, github_1.setOutputs)({ path: outputPath });
+        (0, github_1.setOutputs)({
+            name: node_path_1.default.basename(outputPath),
+            path: outputPath,
+            mediaType: (0, model_1.getMediaType)(format),
+        });
     });
 }
 main().catch((error) => {
@@ -32797,13 +32804,27 @@ main().catch((error) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Format = void 0;
+exports.getMediaType = exports.Format = void 0;
 var Format;
 (function (Format) {
     Format["ZIP"] = "zip";
     Format["TAR"] = "tar";
     Format["TAR_GZ"] = "tar.gz";
 })(Format = exports.Format || (exports.Format = {}));
+function getMediaType(format) {
+    switch (format) {
+        case Format.TAR: {
+            return 'application/tar';
+        }
+        case Format.TAR_GZ: {
+            return 'application/tar+gzip';
+        }
+        case Format.ZIP: {
+            return 'application/zip';
+        }
+    }
+}
+exports.getMediaType = getMediaType;
 
 
 /***/ }),

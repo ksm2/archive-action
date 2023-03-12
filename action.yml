@@ -15,8 +15,12 @@ inputs:
     description: 'Name for the archive'
     required: true
 outputs:
+  name:
+    description: 'The basename of the produced archive'
   path:
     description: 'The absolute path of the produced archive'
+  media-type:
+    description: 'The media type of the produced archive'
 runs:
   using: 'node16'
   main: 'dist/index.js'

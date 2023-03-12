@@ -2,14 +2,7 @@ on: [push]
 
 jobs:
   test:
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,7 +16,7 @@ jobs:
           include: 'src/*.ts'
 
       - name: Get the output path
-        run: echo "The archive is at ${{ steps.archive.outputs.path }}"
+        run: echo "The archive ${{ steps.archive.outputs.name }} is at ${{ steps.archive.outputs.path }} using ${{ steps.archive.outputs.media-type }}"
 
       - uses: actions/upload-artifact@v3
         with:

@@ -21,7 +21,9 @@ function getFormat(): Format {
 }
 
 export function setOutputs(outputs: Outputs): void {
+  core.setOutput('name', outputs.name);
   core.setOutput('path', outputs.path);
+  core.setOutput('media-type', outputs.mediaType);
 }
 
 export function setFailed(error: unknown): void {
