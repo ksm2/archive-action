@@ -1,0 +1,31 @@
+on: [push]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Produce archive
+        id: archive
+        uses: ksm2/archive-action@main
+        with:
+          format: 'zip'
+          name: 'output'
+          include: 'src/*.ts'
+
+      - name: Get the output path
+        run: echo "The archive is at ${{ steps.archive.outputs.path }}"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Archive.zip
+          path: ${{ steps.archive.outputs.path }}
