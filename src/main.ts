@@ -12,7 +12,7 @@ async function main() {
   const filenames = await getFilesToInclude(rootDir, include);
 
   const outputPath = path.resolve(process.cwd(), `${name}.${format}`);
-  const archiver = await archive(format, rootDir, filenames);
+  const archiver = archive(format, rootDir, filenames);
 
   const output = fs.createWriteStream(outputPath);
   const compressor = compress(format);

@@ -32498,15 +32498,6 @@ ZipStream.prototype.finalize = function() {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -32516,18 +32507,16 @@ const archiver_1 = __importDefault(__nccwpck_require__(3084));
 const node_path_1 = __importDefault(__nccwpck_require__(9411));
 const model_1 = __nccwpck_require__(4942);
 function archive(format, rootDir, filenames) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const archive = (0, archiver_1.default)(format === model_1.Format.ZIP ? 'zip' : 'tar', {
-            zlib: { level: 9 }, // Sets the compression level.
-        });
-        process.stdout.write(`Archiving\n`);
-        for (const filename of filenames) {
-            process.stdout.write(`- ${filename}\n`);
-            archive.file(node_path_1.default.resolve(rootDir, filename), { name: filename });
-        }
-        yield archive.finalize();
-        return archive;
+    const archive = (0, archiver_1.default)(format === model_1.Format.ZIP ? 'zip' : 'tar', {
+        zlib: { level: 9 }, // Sets the compression level.
     });
+    process.stdout.write(`Archiving\n`);
+    for (const filename of filenames) {
+        process.stdout.write(`- ${filename}\n`);
+        archive.file(node_path_1.default.resolve(rootDir, filename), { name: filename });
+    }
+    archive.finalize();
+    return archive;
 }
 exports.archive = archive;
 
@@ -32780,7 +32769,7 @@ function main() {
         const { rootDir, include, format, name } = (0, github_1.getInputs)();
         const filenames = yield (0, io_1.getFilesToInclude)(rootDir, include);
         const outputPath = node_path_1.default.resolve(process.cwd(), `${name}.${format}`);
-        const archiver = yield (0, archive_1.archive)(format, rootDir, filenames);
+        const archiver = (0, archive_1.archive)(format, rootDir, filenames);
         const output = node_fs_1.default.createWriteStream(outputPath);
         const compressor = (0, compress_1.compress)(format);
         yield (0, promises_1.pipeline)(archiver, compressor, output);

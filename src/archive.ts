@@ -2,7 +2,7 @@ import archiver from 'archiver';
 import path from 'node:path';
 import { Format } from './model';
 
-export async function archive(format: Format, rootDir: string, filenames: string[]): Promise<archiver.Archiver> {
+export function archive(format: Format, rootDir: string, filenames: string[]): archiver.Archiver {
   const archive = archiver(format === Format.ZIP ? 'zip' : 'tar', {
     zlib: { level: 9 }, // Sets the compression level.
   });
@@ -13,6 +13,6 @@ export async function archive(format: Format, rootDir: string, filenames: string
     archive.file(path.resolve(rootDir, filename), { name: filename });
   }
 
-  await archive.finalize();
+  archive.finalize();
   return archive;
 }
